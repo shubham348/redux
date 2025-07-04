@@ -2,14 +2,15 @@ import "./style.css";
 import Cart from "../../assets/cart.png";
 import Redux from "../../assets/redx.png";
 import ReactPNG from "../../assets/react.webp";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-function Nav({ onCartClick, lang, cartCount = 3000 }) {
-  useEffect(() => {
-    setTimeout(() => {
-      lang = "Hello there!!!";
-    }, 5000);
-  }, []);
+function Nav({ onCartClick }) {
+  const cartData = useSelector((state) => state.cart);
+  const cartCount = Object.values(cartData || {}).reduce(
+    (total, item) => total + item.count,
+    0
+  );
+  console.log(cartData);
 
   return (
     <div className="nav">
