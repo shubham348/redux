@@ -3,20 +3,8 @@ import Cart from "../../assets/cart.png";
 import Redux from "../../assets/redx.png";
 import ReactPNG from "../../assets/react.webp";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
-function Nav({ onCartClick, lang }) {
-  const cart = useSelector(function (state) {
-    return state.cart.cart;
-  });
-
-  let cartCount = 0;
-
-  Object.keys(cart || {}).forEach((key) => {
-    const data = cart[key];
-    cartCount = cartCount + data.count;
-  });
-
+function Nav({ onCartClick, lang, cartCount = 3000 }) {
   useEffect(() => {
     setTimeout(() => {
       lang = "Hello there!!!";
@@ -27,7 +15,7 @@ function Nav({ onCartClick, lang }) {
     <div className="nav">
       <div className="nav-dex">
         <span>Anatomy of </span> <img src={Redux} height="22px" /> Redux and RTK
-        with <img src={ReactPNG} height="22px" /> By Frontend Master
+        <img src={ReactPNG} height="22px" />
       </div>
 
       <button className="img-btn" onClick={onCartClick}>

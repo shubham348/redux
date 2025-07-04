@@ -1,45 +1,36 @@
 import { useState } from "react";
-import axios from "axios";
-
 import { useDispatch } from "react-redux";
-
+import axios from "axios";
+import { List } from "./data";
+//actions
 import {
   updateData,
   updateError,
-  updateLoader,
+  updateloader,
 } from "../store/actions/movie-list";
-
-import { List } from "./data";
-
 function useNetwork() {
   const dispatch = useDispatch();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   function fetch() {
-    dispatch(updateLoader(true));
-    dispatch(updateError(""));
-    dispatch(updateData([]));
-
+    dispatch(updateloader(true));
     setTimeout(() => {
       axios
         .get("/data.json")
-        .then((data) => {
-          //console.log(List);
-          dispatch(updateData(List));
-          // setTimeout(() => {
-          //   dispatch(updateData([]));
-          // }, 100);
+        .then((response) => {
+          dispatch(updateData([...List]));
         })
         .catch((e) => {
-          dispatch(updateError("Error occu  rred while  fetching data"));
-          //  console.log("Error occurred whil e fetching data", e?.response);
+          updateError("Error occurred while fetching data");
         })
         .finally(() => {
-          dispatch(updateLoader(false));
+          dispatch(updateloader(false));
         });
     }, 1000);
   }
 
-  return { fetch };
+  return { fetch, data, isLoading };
 }
 
 export default useNetwork;

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import "./App.css";
 
 import List from "./pages/list";
@@ -9,12 +8,11 @@ import useNetwork from "./network/useNetwork";
 
 function App() {
   const [showCart, setShowCart] = useState(false);
-
   const network = useNetwork();
 
-  if (!network.isLoading && !network.data) {
+  useEffect(() => {
     network.fetch();
-  }
+  }, []);
 
   function handleCartClick() {
     setShowCart(!showCart);
@@ -24,8 +22,8 @@ function App() {
     <>
       <div>
         <Nav onCartClick={handleCartClick} />
-        <Cart />
-        <List onCartClick={handleCartClick} />
+        {showCart && <Cart handleCartClick={handleCartClick} />}
+        {!showCart && <List onCartClick={handleCartClick} />}
       </div>
     </>
   );
